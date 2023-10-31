@@ -1,10 +1,18 @@
 <script setup>
 import {computed} from 'vue'
 import {RouterLink, useRoute} from 'vue-router'
+import {useBebidasStore} from '../stores/bebidas'
+
+
 
 const route = useRoute()
+const bebidas = useBebidasStore()
 
 const HomePage = computed(() => route.name === 'inicio')
+
+const handleSubmit = () => {
+  bebidas.getRecetas()
+}
 
 </script>
 
@@ -52,7 +60,8 @@ const HomePage = computed(() => route.name === 'inicio')
     
 
     <form class="md:w-1/2 2xl:w-1/3 bg-orange-500 my-32 p-8 rounded-lg shadow space-y-6 "
-    v-if="HomePage"
+        v-if="HomePage"
+        @submit.prevent="handleSubmit"
     >
       <div class="space-y-4">
         <label 
@@ -62,6 +71,8 @@ const HomePage = computed(() => route.name === 'inicio')
           type="text"
           id="ingrediente"
           class="p-2 w-full rounded-lg focus:outline-none"
+          placeholder="Nombre o ingrediente: ej. Tequila, Vodka, etc.."
+          v-model="bebidas.search.nombre"
           >
 
       </div>
@@ -72,11 +83,19 @@ const HomePage = computed(() => route.name === 'inicio')
           for="categoria"> Categoria:</label>
         <select 
           id="categoria"
-          type="text"
+          v-model="bebidas.search.categoria"
           class="p-2 w-full rounded-lg focus:outline-none"
-          placeholder="Nombre o ingrediente: ej. Tequila, Vodka, etc.."
+        
           >
           <option value="">-- Selecciona una opcion --</option>
+          <option 
+              v-for="categoria in bebidas.categories"
+              :key="categoria.strCategory"
+              :value="categoria.strCategory"
+
+          > {{categoria.strCategory}}
+          </option>
+
         </select>
       </div>
 
