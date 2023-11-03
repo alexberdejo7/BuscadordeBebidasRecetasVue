@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import {ref, onMounted, reactive} from 'vue'
+import {ref, onMounted, computed, reactive} from 'vue'
 import axios from 'axios'
 import APIService from '../services/APIService'
 import {useModalStore} from '../stores/modal'
@@ -24,7 +24,7 @@ export const useBebidasStore = defineStore('bebidas', () => {
 
     async function getRecetas() {
         const {data: {drinks}} = await APIService.searchRecetas(search)
-        recetas.value= drinks
+        recetas.value = drinks
     }
 
     async function selectBebida(id) {
@@ -34,6 +34,9 @@ export const useBebidasStore = defineStore('bebidas', () => {
         modal.handleClickModal()
     }
 
+
+    const noRecetas = computed(() => recetas.value.length === 0)
+
     return {
         categories,
         search,
@@ -41,6 +44,7 @@ export const useBebidasStore = defineStore('bebidas', () => {
         recetas,
         selectBebida,
         receta,
+        noRecetas,
         
     }
 })
