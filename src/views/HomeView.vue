@@ -10,7 +10,7 @@ const bebidas = useBebidasStore()
   <h1 class="text-5xl font-extrabold">Recetas</h1>
 
   <p v-if="bebidas.noRecetas"
-      class="my-20 p-2 text-2xl line-clamp text-center font-bold italic"
+      class="my-20 p-2 text-2xl text-center font-bold italic"
       >
       No se encontraron Recetas, utiliza el formulario</p>
 
